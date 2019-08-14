@@ -23,7 +23,6 @@
   <!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="index2.html"></a>
       <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -32,15 +31,18 @@
           <li class="nav-item">
             <a class="nav-link" href="index.html">About me</a><!--Education-->
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="services.html">Skills/Experience</a><!--Learning curve-->
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="portfolio-SE.html" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Portfolio
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" href="portfolio-SE.html">Software/DevOps Engineer</a>
+              <a class="dropdown-item" href="portfolio-DS.html">Data Science</a>
+            </div>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="portfolio-1-col.html">Portfolio</a>
-          </li>
-          <li class="nav-item">
+          <!--<li class="nav-item">
             <a class="nav-link" href="contact.html">Contact</a>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -50,7 +52,7 @@
   <div class="container">
 
     <!-- Page Heading/Breadcrumbs -->
-    <h2 style="padding-top: 2rem; padding-bottom: 0.5rem">Youjung Kim</h2>
+    <h2 style="padding-top: 2rem; padding-bottom: 0.5rem">Youjung "Angela" Kim</h2>
 
     <!-- Intro Content: Git, linkedIn, Instagram, Facebook link -->
     <div class="row">
@@ -58,20 +60,16 @@
         <img class="img-fluid rounded mb-4" src="img/profile.jpg" alt="">
       </div>
       <div class="col-lg-8">
-        <!--<div>
-          <a href="#">
-            <i class="far fa-linkedin"></i>
-          </a>
-          <a href="#">
-            <i class="far fa-github-square"></i>
-          </a>
-        </div>-->
-        <h5> Nagoya, Japan |  <a href="https://www.linkedin.com/in/youjung-kim">LinkedIn</a> | <a href="https://github.com/youjung822?tab=repositories">GIT</a></h5>
-        <p>5+ years of software development experiences in all phases of Software Life Cycle.Dedicated and innovative computer science graduate student offering solid fundamentals in information systems and software applications development.Adaptable in new technologies based on the solid fundamentals obtained through experiences in various technical environments.</p>
+        <div style="display: flex;justify-content: flex-start;" >
+          <div>Nagoya, Japan</div>
+          <div style="width:2rem;height:2rem;padding-left:0.5rem" ><a href="https://www.linkedin.com/in/youjung-kim"><img src="img/linkedin.svg"></a></div>
+          <div style="width:2rem;height:2rem;padding-left:0.5rem" ><a href="https://github.com/youjung822?tab=repositories"><img src="img/github.svg"></a></div>
+        </div>
+       <p>5+ years of software development experiences in all phases of Software Life Cycle.Dedicated and innovative computer science graduate student offering solid fundamentals in information systems and software applications development.Adaptable in new technologies based on the solid fundamentals obtained through experiences in various technical environments.</p>
         <!-- Education -->
         <h5>Education</h5>
         <div class="row">
-          <div class="col-lg-5 col-sm-4 portfolio-item">
+          <div class="col-lg-5 col-sm-4 ">
             <div class="card h-100">
               <div class="card-body">
                 <h6 class="card-title">
@@ -82,7 +80,7 @@
               </div>
             </div>
           </div>
-          <div class="col-lg-5 col-sm-4 portfolio-item">
+          <div class="col-lg-5 col-sm-4">
             <div class="card h-100">
               <div class="card-body">
                 <h6 class="card-title">
@@ -98,38 +96,91 @@
       </div>
     </div>
     <!-- /.row -->
-
     <!-- Skill sets -->
-    <h5>Skill sets</h5>
+    <h5 style="padding-top: 1rem;">Skill sets</h5>
     <div class="row">
       <div class="col-lg-6 portfolio-item">
         <div class="card h-100">
           <div class="card-body">
             <h4 class="card-title">
-              <a href="#">Software/DevOps Engineer</a>
+              <a href="portfolio-SE.html">Software/DevOps Engineer</a>
             </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+          <a href="portfolio-SE.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
         </div>
       </div>
       <div class="col-lg-6 portfolio-item">
         <div class="card h-100">
           <div class="card-body">
             <h4 class="card-title">
-              <a href="#">Data Scientist</a>
+              <a href="portfolio-DS.html">Data Scientist</a>
             </h4>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
           </div>
-          <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+          <a href="portfolio-DS.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
         </div>
       </div>
     </div>
     <!-- /.row -->
 
+    <!-- Experience -->
+    <h5 style="padding-top: 1rem;">Experience</h5>
+    <div class="row">
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <h4 class="card-header">DevOps Engineer<br>
+          <label>LG CNS America Inc. NJ, US;</label></h4>
+          <div class="card-body">
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Learn More</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <h4 class="card-header">Junior Software Engineer</h4>
+            <small>CVE Technology Inc. TX, US;</small>
+          <div class="card-body">
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis ipsam eos, nam perspiciatis natus commodi similique totam consectetur praesentium molestiae atque exercitationem ut consequuntur, sed eveniet, magni nostrum sint fuga.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Learn More</a>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <h4 class="card-header">System Developer Intern</h4>
+          <small>Fasoo.com Seoul, South Korea;</small>
+          <div class="card-body">
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sapiente esse necessitatibus neque.</p>
+          </div>
+          <div class="card-footer">
+            <a href="#" class="btn btn-primary">Learn More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /.row -->
+
+    <!-- Languages -->
+    <h5 style="padding-top: 1rem;">Languages</h5>
+    <div class="row">
+      <div class="col-lg-2 col-sm-2 mb-2">
+        <img class="img-fluid" src="img/flag_SK.svg" alt="">Korean, Native
+      </div>
+      <div class="col-lg-2 col-sm-2 mb-2">
+        <img style="padding-top: 0.5rem;padding-bottom: 0.5rem" class="img-fluid" src="img/flag_US.svg" alt="">English, Professional
+      </div>
+      <div class="col-lg-2 col-sm-2 mb-2">
+        <img class="img-fluid" src="img/flag_JP.svg" alt="">Japanese, Basic
+      </div>
+    </div>
+    <!-- /.row -->
   </div>
   <!-- /.container -->
-
+  <br>
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
