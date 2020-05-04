@@ -1,0 +1,55 @@
+{
+  "name": "DS",
+    "children": [
+      {
+        "name": "Collect",
+        "children": [
+          {"name": "RDBMS", "size": 15},
+          {"name": "Hadoop", "size": 5},
+          {"name": "CSV", "size": 5},
+          {"name": "Json", "size": 3}
+        ]
+      },
+      {
+        "name": "Process",
+        "children": [
+          {"name": "Python", "size": 15},
+          {"name": "Pig", "size": 5},
+          {"name": "Numpy", "size": 10},
+          {"name": "Pandas", "size": 10},
+          {"name": "Spark", "size": 5},
+          {"name": "Scala", "size": 5},
+          {"name": "scikit-learn", "size": 5},
+          {"name": "TensorFlow", "size": 7}
+        ]
+      },
+      {
+        "name": "Analyze",
+        "children": [
+          {
+            "name": "Supervised",
+            "children":[
+              {"name": "Regression", "size": 10},
+              {"name": "Classification", "size": 10}
+            ]
+          },
+          {
+            "name": "Unsupervised",
+            "children":[
+              {"name": "Clustering", "size": 15}
+            ]
+          },
+          {"name": "Evaluation", "size": 15},
+          {"name": "Neural Network", "size": 5}
+        ]
+      },
+      {
+        "name": "Visualize",
+        "children": [
+          {"name": "D3.js", "size": 15},
+          {"name": "Tableau", "size": 5},
+          {"name": "Matplotlib", "size": 3}
+        ]
+      }
+    ]
+}

@@ -9,17 +9,28 @@
   <meta name="author" content="">
 
   <title>Youjung Kim's Portfolio</title>
+  <style>
 
+    path {
+      stroke: #fff;
+      fill-rule: evenodd;
+    }
+
+    text {
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
+
+  </style>
   <!-- Bootstrap core CSS -->
   <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Custom styles for this template  <link href="css/all.min.css" rel="stylesheet">-->
   <link href="css/modern-business.css" rel="stylesheet">
   <link href="css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
-
+  <script src="https://d3js.org/d3.v3.min.js"></script>
   <!-- Navigation -->
   <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
@@ -65,7 +76,7 @@
           <div style="width:2rem;height:2rem;padding-left:0.5rem" ><a href="https://www.linkedin.com/in/youjung-kim"><img src="img/linkedin.svg"></a></div>
           <div style="width:2rem;height:2rem;padding-left:0.5rem" ><a href="https://github.com/youjung822?tab=repositories"><img src="img/github.svg"></a></div>
         </div>
-       <p>5+ years of software development experiences in all phases of Software Life Cycle.Dedicated and innovative computer science graduate student offering solid fundamentals in information systems and software applications development.Adaptable in new technologies based on the solid fundamentals obtained through experiences in various technical environments.</p>
+       <p>5+ years of software engineering and data analysis experiences. Dedicated and innovative computer science graduate student offering solid fundamentals in software engineering and data science. Adaptable in new technologies based on the solid fundamentals obtained through experiences in various technical environments.</p>
         <!-- Education -->
         <h5>Education</h5>
         <div class="row">
@@ -85,9 +96,9 @@
               <div class="card-body">
                 <h6 class="card-title">
                  Dongguk University
-                  <img style="padding-top: 1.5rem;padding-bottom: 1.5rem" src="img/dglogo2.jpg" alt="">
+                  <img style="padding-top: 2rem;padding-bottom: 2rem" src="img/dglogo2.jpg" alt="">
                 </h6>
-                <p class="card-text">Seoul, S.Korea, Feb 2013<br><small>Bachelor of Science in CSE</small></p>
+                <p class="card-text">Seoul, South Korea, Feb 2013<br><small>Bachelor of Science in CSE</small></p>
               </div>
             </div>
           </div>
@@ -105,8 +116,92 @@
             <h4 class="card-title">
               <a href="portfolio-SE.html">Software Engineer</a>
             </h4>
+            <svg id="svgSE"class="card-img img-fluid"></svg>
           </div>
-          <a href="portfolio-SE.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+
+          <script>
+            var svg = d3.select("#svgSE")
+            var width = 500
+            var height = 400
+            var radius = Math.min(width, height) / 2;
+            var x = d3.scale.linear()
+                    .range([0, 2 * Math.PI]);
+            var y = d3.scale.linear()
+                    .range([0, radius]);
+            var color = d3.scale.category20();
+            var svg = d3.select("#svgSE")
+                    .attr("width", width)
+                    .attr("height", height)
+                    .append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + (height / 2 + 10) + ")");
+
+            var partition = d3.layout.partition()
+                    .value(function(d) { return d.size; });
+
+            var arc = d3.svg.arc()
+                    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+                    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+                    .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+                    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
+
+            d3.json("skills.json", function(error, root) {
+              var g = svg.selectAll("g")
+                      .data(partition.nodes(root))
+                      .enter().append("g");
+
+              var path = g.append("path")
+                      .attr("d", arc)
+                      .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+                      .on("click", click);
+
+              var text = g.append("text")
+                      .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+                      .attr("x", function(d) { return y(d.y); })
+                      .attr("dx", "6") // margin
+                      .attr("dy", ".35em") // vertical-align
+                      .text(function(d) { return d.name; });
+
+              function click(d) {
+                // fade out all text elements
+                text.transition().attr("opacity", 0);
+
+                path.transition()
+                        .duration(300)
+                        .attrTween("d", arcTween(d))
+                        .each("end", function(e, i) {
+                          // check if the animated element's data e lies within the visible angle span given in d
+                          if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                            // get a selection of the associated text element
+                            var arcText = d3.select(this.parentNode).select("text");
+                            // fade in the text element and recalculate positions
+                            arcText.transition().duration(300)
+                                    .attr("opacity", 1)
+                                    .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                                    .attr("x", function(d) { return y(d.y); });
+                          }
+                        });
+              }
+            });
+
+            d3.select(self.frameElement).style("height", height + "px");
+
+            // Interpolate the scales!
+            function arcTween(d) {
+              var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+                      yd = d3.interpolate(y.domain(), [d.y, 1]),
+                      yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+              return function(d, i) {
+                return i
+                        ? function(t) { return arc(d); }
+                        : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
+              };
+            }
+
+            function computeTextRotation(d) {
+              return (x(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+            }
+
+          </script>
         </div>
       </div>
       <div class="col-lg-6 portfolio-item">
@@ -116,19 +211,82 @@
               <a href="portfolio-DS.html">Data Scientist</a>
             </h4>
           </div>
-          <a href="portfolio-DS.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+          <svg id="svgDS"class="card-img img-fluid"></svg>
+          <script>
+            var width2 = 500
+            var height2 = 400
+            var radius2 = Math.min(width2, height2) / 2;
+            var x2 = d3.scale.linear()
+                    .range([0, 2 * Math.PI]);
+            var y2 = d3.scale.linear()
+                    .range([0, radius2]);
+            var color2 = d3.scale.category20();
+            var svg2 = d3.select("#svgDS")
+                    .attr("width", width2)
+                    .attr("height", height2)
+                    .append("g")
+                    .attr("transform", "translate(" + width2 / 2 + "," + (height2 / 2 + 10) + ")");
+            var partition2 = d3.layout.partition()
+                    .value(function(d) { return d.size; });
+
+            var arc2 = d3.svg.arc()
+                    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x2(d.x))); })
+                    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x2(d.x + d.dx))); })
+                    .innerRadius(function(d) { return Math.max(0, y2(d.y)); })
+                    .outerRadius(function(d) { return Math.max(0, y2(d.y + d.dy)); });
+
+            d3.json("skills2.json", function(error, root) {
+              var g2 = svg2.selectAll("g")
+                      .data(partition2.nodes(root))
+                      .enter().append("g");
+
+              var path2 = g2.append("path")
+                      .attr("d", arc2)
+                      .style("fill", function(d) { return color2((d.children ? d : d.parent).name); })
+                      .on("click", click2);
+
+              var text2 = g2.append("text")
+                      .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+                      .attr("x", function(d) { return y2(d.y); })
+                      .attr("dx", "6") // margin
+                      .attr("dy", ".35em") // vertical-align
+                      .text(function(d) { return d.name; });
+
+              function click2(d) {
+                // fade out all text elements
+                text2.transition().attr("opacity", 0);
+
+                path2.transition()
+                        .duration(300)
+                        .attrTween("d", arcTween(d))
+                        .each("end", function(e, i) {
+                          // check if the animated element's data e lies within the visible angle span given in d
+                          if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                            // get a selection of the associated text element
+                            var arcText = d3.select(this.parentNode).select("text");
+                            // fade in the text element and recalculate positions
+                            arcText.transition().duration(300)
+                                    .attr("opacity", 1)
+                                    .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                                    .attr("x", function(d) { return y2(d.y); });
+                          }
+                        });
+              }
+            });
+
+            d3.select(self.frameElement).style("height", height2 + "px");
+          </script>
         </div>
       </div>
     </div>
     <!-- /.row -->
-
     <!-- Experience -->
     <h5 style="padding-top: 1rem;">Experience</h5>
     <div class="row">
       <div class="col-lg-4 mb-4">
         <div class="card h-100">
           <h5 class="card-header">DevOps Engineer<br>
-          <small>LG CNS America Inc. NJ,US (2yrs 6mos)</small></h5>
+          <small>LG CNS America Inc. NJ,US</small></h5>
           <div class="card-body">
             <p class="card-text">Responsible for maintenance of LG Electronics web based systems interfacing with ERP solutions and other 3rd party systems.</p>
             <ul>
@@ -143,7 +301,7 @@
       <div class="col-lg-4 mb-4">
         <div class="card h-100">
           <h5 class="card-header">Junior Software Engineer<br>
-            <small>CVE Technology Inc. TX,US (3yrs 7mos)</small></h5>
+            <small>CVE Technology Inc. TX,US</small></h5>
           <div class="card-body">
             <p class="card-text">Participated in complete Software Development Life Cycle(SDLC) for its in-house applications.</p>
             <ul>
@@ -158,7 +316,7 @@
       <div class="col-lg-4 mb-4">
         <div class="card h-100">
           <h5 class="card-header">System Developer Intern<br>
-          <small>Fasoo.com Seoul, South Korea (10mos)</small></h5>
+          <small>Fasoo.com Seoul, South Korea</small></h5>
           <div class="card-body">
             <p class="card-text">Involved in remote control applications research and a design of a windows service application to detect access of remote control.</p>
             <ul>
@@ -178,10 +336,7 @@
         <img class="img-fluid" src="img/flag_SK.svg" alt="">Korean, Native
       </div>
       <div class="col-lg-2 col-sm-2 mb-2">
-        <img style="padding-top: 0.5rem;padding-bottom: 0.5rem" class="img-fluid" src="img/flag_US.svg" alt="">English, Professional
-      </div>
-      <div class="col-lg-2 col-sm-2 mb-2">
-        <img class="img-fluid" src="img/flag_JP.svg" alt="">Japanese, Basic
+        <img style="padding-top: 1rem;padding-bottom: 0.5rem" class="img-fluid" src="img/flag_US.svg" alt="">English, Professional
       </div>
     </div>
     <!-- /.row -->
@@ -201,5 +356,4 @@
   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
 </body>
-
 </html>
