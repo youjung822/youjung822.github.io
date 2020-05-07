@@ -11,6 +11,14 @@
         ]
       },
       {
+        "name": "Domain",
+        "children": [
+          {"name": "Healthcare", "size": 15},
+          {"name": "Trading", "size": 5},
+          {"name": "Order Mngt", "size": 10}
+        ]
+      },
+      {
         "name": "Process",
         "children": [
           {"name": "Python", "size": 15},
